@@ -1,12 +1,9 @@
 import { Link } from '@material-ui/core';
-import React, { useMemo } from 'react'
-import { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PaginationComponenet from './PaginationComponenet';
 
-const Products = () => {
-
-    const [users, setUsers] = useState([]);
+function Products() {
+  const [users, setUsers] = useState([]);
     const [count, setCount] = useState(0);
     const [totalItems, setTotalItems] = useState(0);
     const [currentPage, setCurrentPage] = useState();
@@ -46,9 +43,10 @@ const Products = () => {
               (currentPage - 1)*ITEMS_PER_PAGE+ITEMS_PER_PAGE );
     }, [users, currentPage])
 
-    return (
-        <div className="products">
-            <div class="card-columns">
+  return (
+    <div className='products'>
+      <div className="container">
+      <div class="card-columns">
                 {
                     usersData.map((Elm)=>{
                         return (
@@ -73,8 +71,9 @@ const Products = () => {
                     onPageChange={ page => setCurrentPage(page) }
             />
             </div>
-        </div>
-    )
-    }
+          </div>
+    </div>
+  );
+}
 
-export default Products
+export default Products;
