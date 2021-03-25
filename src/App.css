@@ -11,7 +11,8 @@
 .about,
 .products {
   display: flex;
-  height: 120vh;
+  height: 100%;
+  width: 100%;
   align-items: center;
   justify-content: center;
   font-size: 1rem;

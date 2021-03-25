@@ -1,13 +1,18 @@
 import { Link } from '@material-ui/core';
+import { AddShoppingCart } from '@material-ui/icons';
 import React, { useEffect, useMemo, useState } from 'react';
+import CartComponent from '../components/CartComponent';
 import PaginationComponenet from './PaginationComponenet';
 
 function Products() {
-  const [users, setUsers] = useState([]);
-    const [count, setCount] = useState(0);
+    const [users, setUsers] = useState([]);
+    const [quantity, setQuantity] = useState(0);
     const [totalItems, setTotalItems] = useState(0);
     const [currentPage, setCurrentPage] = useState();
-    const ITEMS_PER_PAGE = 6;
+    const [currentCart,setCart] = useState([]);
+    const [itemCount, setItemCount] = useState(0);
+    const [cartComponent, setCartComponent] = useState(false);
+    const ITEMS_PER_PAGE = 9;
     
     const getUsers = async () =>{
         try{
@@ -19,18 +24,23 @@ function Products() {
             console.log("my error"+error);
         }
     };
+    const addToCart = (data) =>{ 
+        console.log(data);
+        setItemCount(itemCount+1);
+        setCart([...currentCart, data]); 
+    }
 
     useEffect(()=>{
         getUsers();
     },[]);
 
     const addItem = () => {
-        setCount(count + 1)
+        setQuantity(quantity + 1)
     }
 
     const decItem = () => {
-        if(count>0) {
-            setCount(count-1)
+        if(quantity>0) {
+            setQuantity(quantity-1)
         }
     }
 
@@ -45,33 +55,36 @@ function Products() {
 
   return (
     <div className='products'>
-      <div className="container">
-      <div class="card-columns">
+        {cartComponent && <CartComponent currentCart={currentCart}/>}
+        {cartComponent ||
+        <div className="container">
+            <div className="card-columns">
                 {
-                    usersData.map((Elm)=>{
+                    usersData.map((data)=>{
                         return (
-                            <div keys={Elm.id} class="card-body text-center mx-0">
-                               <div class="image"><img src={Elm.avatar_url} class="rounded" width="155"/></div>
-                               <p class="card-text">Name</p>
-                               <p class="card-text">Price</p>
-                               <p class="card-text">item {count}</p>
-                               <button class="btn btn-outline-primary mx-1"  onClick={addItem}>+</button>
-                               <button class="btn btn-outline-primary mx-1" onClick={decItem}>-</button><br/>
-                               <Link class="btn btn-primary mt-1" to="#">Add Cart</Link>
+                            <div keys={data.id} className="card-body text-center mx-0">
+                               <div className="image"><img src={data.avatar_url} className="rounded" width="155"/></div>
+                               <p className="card-text">Name</p>
+                               <p className="card-text">Price ${50}</p>
+                               <p className="card-text">quantity {quantity}</p>
+                               <button className="btn btn-outline-primary mx-1"  onClick={() => addItem()}>+</button>
+                               <button className="btn btn-outline-primary mx-1" onClick={()=>decItem()}>-</button><br/>
+                               <button className="btn btn-outline-primary mt-1" onClick={()=>addToCart(data)}>Add Cart</button>
                             </div>
                         )
                     })
                 }
             </div>
             <div className="pagination">
-            <PaginationComponenet 
+                <PaginationComponenet 
                     total={totalItems}
                     itemsPerPage={ITEMS_PER_PAGE}
                     currentPage={currentPage}
                     onPageChange={ page => setCurrentPage(page) }
-            />
+                />
+                <button className="btn btn-outline-info btn-lg" onClick={()=>setCartComponent(true)}>Go To Cart ({itemCount})</button>
             </div>
-          </div>
+        </div>}
     </div>
   );
 }

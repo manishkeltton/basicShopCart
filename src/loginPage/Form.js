@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import useForm from "./useForm";
 import validate from './LoginFormValidationRules';
 import { useAuth0 } from '@auth0/auth0-react'; 
 import { GoogleLogin } from 'react-google-login';
+import { Redirect, useHistory } from 'react-router';
+import MainComponent from '../components/MainComponent';
 
 const clientId = 'process.env.REACT_APP_AUTH0_CLIENT_ID.apps.googleusercontent.com'; 
 
 const Form = () => {
 
   const { loginWithRedirect } = useAuth0();
+  const [isLogged, setIsLogged] = useState(false);
+
+  useEffect(()=>{
+    setIsLogged(true);
+  },[])
 
   const {
     values,
@@ -22,7 +29,9 @@ const Form = () => {
   }
 
   return (
-    <div className="section is-fullheight">
+    <div>
+    {isLogged && <MainComponent />}
+    {isLogged || <div className="section is-fullheight">
       <div className="container">
         <div className="column is-4 is-offset-4">
           <div className="box">
@@ -45,11 +54,12 @@ const Form = () => {
                   <p className="help is-danger">{errors.password}</p>
                 )}
               </div>
-              <button type="submit" className="button is-block is-info is-fullwidth mt-1" onClick={()=> loginWithRedirect()} >Login</button>
+              <button type="submit" className="button is-block is-info is-fullwidth mt-1" onClick={()=>setIsLogged(true)}>Login</button>
             </form>
           </div>
         </div>
       </div>
+    </div>}
     </div>
   );
 };
