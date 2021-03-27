@@ -13,10 +13,6 @@ const Form = () => {
   const { loginWithRedirect } = useAuth0();
   const [isLogged, setIsLogged] = useState(false);
 
-  useEffect(()=>{
-    setIsLogged(true);
-  },[])
-
   const {
     values,
     errors,

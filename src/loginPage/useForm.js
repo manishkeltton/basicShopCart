@@ -7,8 +7,6 @@ const useForm = (callback, validate) => {
   const [values, setValues] = useState({});
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isLogged,setIsLogged] = useState(false);
-
   useEffect(() => {
     if (Object.keys(errors).length === 0 && isSubmitting) {
       callback();
@@ -19,9 +17,7 @@ const useForm = (callback, validate) => {
     setErrors(validate(values));
     setIsSubmitting(true);
     console.log(values.email + values.password);
-    if(values.email == "mk@gmail.com" && values.password == "12345678"){
-      localStorage.setItem("token", "T");
-      setIsLogged(true);
+    if(values.email == "mk@gmail.com" && values.password == "12345679"){
     }
     if (event) event.preventDefault();
   };

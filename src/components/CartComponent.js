@@ -21,7 +21,7 @@ const CartComponent = ({currentCart}) => {
             {invoice || 
             <div className="py-4">
             <h1>Cart Item</h1>
-            <Link to="/" className="btn btn-btn-primary">Back To Product</Link>
+            {/* <Link to="/" className="btn btn-btn-primary">Back To Product</Link> */}
             <table class="table border shadow">
              <thead class="thead-dark">
           <tr>
@@ -39,10 +39,10 @@ const CartComponent = ({currentCart}) => {
                     (
                         <tr>
                             <th scope="row">{ index+1 }</th>
-                            <td><img src={cart.avatar_url} className="rounded" width="155"/></td>
-                            <td>Name Hi..</td>
-                            <td>Price</td>
-                            <td>quantity</td>
+                            <td><img src={cart.image} style={{display: "block", margin: "0 auto 10px", maxHeight: "200px"}} className="round"/></td>
+                            <td>{cart.category}</td>
+                            <td>${cart.quantity*cart.price}</td>
+                            <td>{cart.quantity}</td>
                             <td>
                                 <button class="btn btn-danger" onClick={() => removeFromCart(cart)}>remove</button>
                             </td>
